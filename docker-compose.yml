@@ -1,35 +1,60 @@
+version: '3.8'
+
 services:
 
   postgres:
     image: postgres:16
     container_name: postgres-biblioteca
+    restart: always
     environment:
+      POSTGRES_DB: biblioteca_db
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: admin
-      POSTGRES_DB: biblioteca_db
     ports:
       - "5432:5432"
+
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka-server
+    ports:
+      - "8761:8761"
+    depends_on:
+      - postgres
+
+  config-server:
+    build: ./config-server
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    depends_on:
+      - eureka-server
 
   ms-libro:
     build: ./ms-libro
     container_name: ms-libro
-    depends_on:
-      - postgres
     ports:
       - "8085:8085"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/biblioteca_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: admin
+    depends_on:
+      - postgres
+      - eureka-server
+      - config-server
 
   ms-prestamo:
     build: ./ms-prestamo
     container_name: ms-prestamo
+    ports:
+      - "8086:8086"
     depends_on:
       - postgres
-    ports:
-      - "8087:8087"
+      - eureka-server
+      - config-server
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.0
+    container_name: keycloak
+    command: start-dev
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/biblioteca_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: admin
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8089:8080"
