@@ -1,12 +1,13 @@
 package pe.edu.biblioteca.ms_prestamo.service.impl;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 import pe.edu.biblioteca.ms_prestamo.dto.PrestamoDTO;
 import pe.edu.biblioteca.ms_prestamo.entity.Prestamo;
 import pe.edu.biblioteca.ms_prestamo.mapper.PrestamoMapper;
 import pe.edu.biblioteca.ms_prestamo.repository.PrestamoRepository;
 import pe.edu.biblioteca.ms_prestamo.service.PrestamoService;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -16,6 +17,9 @@ public class PrestamoServiceImpl implements PrestamoService {
     private final PrestamoRepository prestamoRepository;
     private final PrestamoMapper prestamoMapper;
     private final RestTemplate restTemplate;
+
+    @Value("${libro.service.url}")
+    private String libroServiceUrl;
 
     public PrestamoServiceImpl(PrestamoRepository prestamoRepository,
                                PrestamoMapper prestamoMapper,
@@ -38,16 +42,18 @@ public class PrestamoServiceImpl implements PrestamoService {
     public PrestamoDTO buscarPorId(Long id) {
 
         Prestamo prestamo = prestamoRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Préstamo no encontrado"));
+                .orElseThrow(() ->
+                        new RuntimeException("Préstamo no encontrado"));
 
         return prestamoMapper.toDTO(prestamo);
     }
 
     @Override
     public PrestamoDTO guardar(PrestamoDTO dto) {
-        //verificar que el libro existe
+
+        // Verificar que el libro existe
         restTemplate.getForObject(
-                "http://localhost:8085/libros/" + dto.getLibroId(),
+                libroServiceUrl + "/libros/" + dto.getLibroId(),
                 Object.class
         );
 
@@ -74,6 +80,5 @@ public class PrestamoServiceImpl implements PrestamoService {
     public void eliminar(Long id) {
 
         prestamoRepository.deleteById(id);
-
     }
 }

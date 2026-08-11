@@ -9,6 +9,8 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
         </processorPath>
         <module name="ms-libro" />
       </profile>
@@ -17,6 +19,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct-processor/1.6.3/mapstruct-processor-1.6.3.jar" />
         </processorPath>
@@ -29,14 +33,34 @@
         <module name="config-server" />
         <module name="eureka-server" />
       </profile>
+      <profile name="Annotation profile for ms-cliente" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="ms-cliente" />
+        <module name="ms-sede" />
+      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ms-sede.main" target="17" />
+      <module name="ms-sede.test" target="17" />
+      <module name="ms_sede" target="21" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="config-server" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="ms-cliente" options="-parameters" />
       <module name="ms-libro" options="-parameters" />
       <module name="ms-prestamo" options="-parameters" />
+      <module name="ms-sede" options="-parameters" />
+      <module name="ms-sede.main" options="-parameters" />
+      <module name="ms-sede.test" options="-parameters" />
+      <module name="ms_sede" options="-parameters" />
     </option>
   </component>
 </project>

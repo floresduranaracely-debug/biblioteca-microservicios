@@ -8,6 +8,9 @@
         <option value="$PROJECT_DIR$/ms-prestamo/pom.xml" />
         <option value="$PROJECT_DIR$/config-server/pom.xml" />
         <option value="$PROJECT_DIR$/eureka-server/pom.xml" />
+        <option value="$PROJECT_DIR$/ms_sede/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-sede/pom.xml" />
+        <option value="$PROJECT_DIR$/ms-cliente/pom.xml" />
       </list>
     </option>
   </component>
